@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Make fictitious MAC addresses
+
+od -tx1 -w6 -N$((6*6)) /dev/urandom | cut -c9- | tr ' ' : | head -n6
+
+echo "00:00:00:00:00:00"
+echo "00:00:00:00:00:00"
