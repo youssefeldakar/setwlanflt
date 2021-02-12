@@ -9,9 +9,7 @@ if [ "$#" -ne 1 ] || [ "$1" != 1 ] && [ "$1" != 0 ]; then
   exit 1
 fi
 
-basedir=$(dirname "$0")
-
-flt_mac=$(grep -v '^$' "$basedir/flt_mac" | head -n8 | cut -d' ' -f1 | sed 's/:/%3A/g;s/.*/WLANFLT_MAC=&\&/' | tr -d \\n | sed 's/&$//')
+flt_mac=$(grep -v '^$' "$(dirname "$0")/flt_mac" | head -n8 | cut -d' ' -f1 | sed 's/:/%3A/g;s/.*/WLANFLT_MAC=&\&/' | tr -d \\n | sed 's/&$//')
 
 ssid=my_wifi
 psk=1234abcd
@@ -25,3 +23,9 @@ while true; do
     break
   fi
 done
+
+if [ "$1" = 1 ]; then
+  echo "Activated" >&2
+else
+  echo "Deactivated" >&2
+fi
