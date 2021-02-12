@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if [ "$#" -ne 1 ] || (echo "$1" | grep -qv '^[1-9][0-9]*[smhd]\?$'); then
+  echo "Usage: pause TIME" >&2
+  exit 1
+fi
+
+"$(dirname "$0")/onoff" 0
+sleep "$1"
+"$(dirname "$0")/onoff" 1
