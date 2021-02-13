@@ -6,5 +6,6 @@ if [ "$#" -ne 1 ] || (echo "$1" | grep -qv '^[1-9][0-9]*[smhd]\?$'); then
 fi
 
 "$(dirname "$0")/onoff" 0
+echo "Waiting..." >&2
 sleep "$1"
 "$(dirname "$0")/onoff" 1
