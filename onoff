@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 # Set WLAN filtering in TP-LINK "54M Wireless ADSL2+ Modem Router"
 
@@ -9,7 +10,15 @@ if [ "$#" -ne 1 ] || [ "$1" != 1 ] && [ "$1" != 0 ]; then
   exit 1
 fi
 
-flt_mac=$(grep -v '^$' "$(dirname "$0")/flt_mac" | head -n8 | cut -d' ' -f1 | sed 's/:/%3A/g;s/.*/WLANFLT_MAC=&\&/' | tr -d \\n | sed 's/&$//')
+# Look for flt_mac in current dir then in script's dir
+[ -e ./flt_mac ] && dir=. || [ -e "$(dirname "$0")/flt_mac" ] && dir="$(dirname "$0")"
+
+if [ -z "$dir" ]; then
+  echo "No flt_mac found" >&2
+  exit 1
+fi
+
+flt_mac=$(grep -v '^$' "$dir/flt_mac" | head -n8 | cut -d' ' -f1 | sed 's/:/%3A/g;s/.*/WLANFLT_MAC=&\&/' | tr -d \\n | sed 's/&$//')
 
 ssid=my_wifi
 psk=1234abcd
